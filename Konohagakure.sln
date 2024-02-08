@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Konohagakure", "Konohagakure\Konohagakure.csproj", "{600671B5-E311-49DE-8BBC-4988E2B3598E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KonohagakureLibrary", "KonohagakureLibrary\KonohagakureLibrary.csproj", "{BE255FB1-3C07-4FB2-8FE0-EE6FCB3CA4F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{600671B5-E311-49DE-8BBC-4988E2B3598E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600671B5-E311-49DE-8BBC-4988E2B3598E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600671B5-E311-49DE-8BBC-4988E2B3598E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600671B5-E311-49DE-8BBC-4988E2B3598E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE255FB1-3C07-4FB2-8FE0-EE6FCB3CA4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE255FB1-3C07-4FB2-8FE0-EE6FCB3CA4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE255FB1-3C07-4FB2-8FE0-EE6FCB3CA4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE255FB1-3C07-4FB2-8FE0-EE6FCB3CA4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B019527-0BFE-4EC8-A201-681AF8DACDD4}
+	EndGlobalSection
+EndGlobal
