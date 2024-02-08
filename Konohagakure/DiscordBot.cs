@@ -11,6 +11,9 @@ using DSharpPlus.ModalCommands.EventArgs;
 using DSharpPlus.ModalCommands.Extensions;
 using DSharpPlus.SlashCommands;
 using DSharpPlus.SlashCommands.EventArgs;
+using Konohagakure.VillagerApplication;
+using KonohagakureLibrary.Data;
+using KonohagakureLibrary.DBUtil;
 using Microsoft.Extensions.Logging;
 
 namespace Konohagakure
@@ -52,6 +55,8 @@ namespace Konohagakure
 			// 3. Register Services for DSharpPlus's DependencyInjection
 			var botServices = new ServiceCollection()
 				.AddSingleton<IConfiguration>(_config)
+				.AddTransient<IDatabaseProfileData, PostgreSQLProfileData>()
+				.AddTransient<IPostgreSQLDataAccess, PostgreSQLDataAccess>()
 					.BuildServiceProvider();
 
 			// 4. Default timeout for Commands using Interactivity
@@ -104,17 +109,49 @@ namespace Konohagakure
 
 			slashCommands.SlashCommandErrored += OnSlashCommands_SlashCommandErrored;
 
-			// 6. Connecting...
+			// 6. Registering Commands
+
+			#region Villager Application
+
+			Commands.RegisterCommands<PrefixCommandVillagerApplication>();
+			ButtonCommands.RegisterButtons<ButtonCommandVillagerApplication>();
+			ModalCommands.RegisterModals<ModalCommandVillagerApplication>();
+
+			#endregion
+
+			// 7. Connecting...
 			await Client.ConnectAsync();
 		}
 
 		private Task OnSlashCommands_SlashCommandErrored(SlashCommandsExtension sender, SlashCommandErrorEventArgs args)
 		{
+			_logger.LogError(args.Exception,
+				$"{ args.Context.Member } has used slash command { args.Context.CommandName } which threw an Exception: {args.Exception.Message}");
+
 			return Task.CompletedTask;
 		}
 
 		private Task OnModalCommands_ModalCommandErrored(ModalCommandsExtension sender, ModalCommandErrorEventArgs args)
 		{
+			_logger.LogError(args.Exception,
+				$"{args.Context.Member} has used modal command {args.CommandName} which threw an Exception: {args.Exception.Message}");
+
+			return Task.CompletedTask;
+		}
+
+		private Task OnButtonCommands_ButtonCommandErrored(ButtonCommandsExtension sender, ButtonCommandErrorEventArgs args)
+		{
+			_logger.LogError(args.Exception,
+				$"{args.Context.Member} has used button command {args.CommandName} which threw an Exception: {args.Exception.Message}");
+
+			return Task.CompletedTask;
+		}
+
+		private Task OnCommands_CommandErrored(CommandsNextExtension sender, CommandErrorEventArgs args)
+		{
+			_logger.LogError(args.Exception,
+				$"{args.Context.Member} has used button command {args.Command.Name} which threw an Exception: {args.Exception.Message}");
+
 			return Task.CompletedTask;
 		}
 
@@ -123,17 +160,7 @@ namespace Konohagakure
 			return Task.CompletedTask;
 		}
 
-		private Task OnButtonCommands_ButtonCommandErrored(ButtonCommandsExtension sender, ButtonCommandErrorEventArgs args)
-		{
-			return Task.CompletedTask;
-		}
-
 		private Task OnButtonCommands_ButtonCommandExecuted(ButtonCommandsExtension sender, ButtonCommandExecutionEventArgs args)
-		{
-			return Task.CompletedTask;
-		}
-
-		private Task OnCommands_CommandErrored(CommandsNextExtension sender, CommandErrorEventArgs args)
 		{
 			return Task.CompletedTask;
 		}
@@ -148,12 +175,12 @@ namespace Konohagakure
 			return Task.CompletedTask;
 		}
 
-		private Task OnClient_ComponentInteractionCreated(DiscordClient sender, ComponentInteractionCreateEventArgs args)
+		private Task OnClient_Ready(DiscordClient sender, ReadyEventArgs args)
 		{
 			return Task.CompletedTask;
 		}
 
-		private Task OnClient_Ready(DiscordClient sender, ReadyEventArgs args)
+		private Task OnClient_ComponentInteractionCreated(DiscordClient sender, ComponentInteractionCreateEventArgs args)
 		{
 			return Task.CompletedTask;
 		}
