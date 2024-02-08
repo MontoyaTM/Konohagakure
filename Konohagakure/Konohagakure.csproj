@@ -18,4 +18,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="XeroxDev.DSharpPlus.ModalCommands" Version="2.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KonohagakureLibrary\KonohagakureLibrary.csproj" />
+  </ItemGroup>
 </Project>
