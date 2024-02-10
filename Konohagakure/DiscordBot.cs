@@ -3,6 +3,7 @@ using DSharpPlus.ButtonCommands;
 using DSharpPlus.ButtonCommands.EventArgs;
 using DSharpPlus.ButtonCommands.Extensions;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
@@ -57,6 +58,7 @@ namespace Konohagakure
 				.AddSingleton<IConfiguration>(_config)
 				.AddTransient<IDatabaseProfileData, PostgreSQLProfileData>()
 				.AddTransient<IPostgreSQLDataAccess, PostgreSQLDataAccess>()
+				
 					.BuildServiceProvider();
 
 			// 4. Default timeout for Commands using Interactivity
@@ -79,7 +81,8 @@ namespace Konohagakure
 			var buttonCommandsConfig = new ButtonCommandsConfiguration()
 			{
 				ArgumentSeparator = "-",
-				Prefix = botPrefix
+				Prefix = botPrefix,
+				
 			};
 			ButtonCommands = Client.UseButtonCommands(buttonCommandsConfig);
 
@@ -99,8 +102,8 @@ namespace Konohagakure
 			Client.ModalSubmitted += OnClient_ModalSubmitted;
 
 			Commands.CommandExecuted += OnCommands_CommandExecuted;
-			Commands.CommandErrored += OnCommands_CommandErrored; ;
-
+			Commands.CommandErrored += OnCommands_CommandErrored;
+			
 			ButtonCommands.ButtonCommandExecuted += OnButtonCommands_ButtonCommandExecuted;
 			ButtonCommands.ButtonCommandErrored += OnButtonCommands_ButtonCommandErrored;
 
