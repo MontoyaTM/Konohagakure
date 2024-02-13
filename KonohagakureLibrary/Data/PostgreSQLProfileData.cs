@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KonohagakureLibrary.Data
 {
@@ -26,18 +27,15 @@ namespace KonohagakureLibrary.Data
 
 				string sql = "SELECT COUNT(*) " +
 							 "FROM konohagakure.profiledata " +
-							$"WHERE memberid = @MemberId;";
+							$"WHERE memberid = @memberId;";
 
-				var results = await _db.LoadData<dynamic, dynamic>(sql, new { MemberId }, connectionStringName);
+				var count = await _db.GetCount(sql, new { memberId = (long) MemberId}, connectionStringName);
 
-				if (results.Count() == 0)
+				if (count == 0)
 				{
 					return false;
 				}
-				else
-				{
-					return true;
-				}
+				return true;
 			}
 			catch (Exception ex)
 			{
@@ -52,11 +50,11 @@ namespace KonohagakureLibrary.Data
 			{
 				string sql = "SELECT COUNT(*) " +
 							 "FROM konohagakure.profiledata " +
-							$"WHERE serverid = @ServerId;";
+							$"WHERE serverid = @serverId;";
 
-				var results = await _db.LoadData<dynamic, dynamic>(sql, new { ServerId }, connectionStringName);
+				var count = await _db.GetCount(sql, new { serverId = (long) ServerId}, connectionStringName);
 
-				if (results.Count() == 0)
+				if (count == 0)
 				{
 					return false;
 				}
@@ -73,20 +71,34 @@ namespace KonohagakureLibrary.Data
 			}
 		}
 
-
 		public async Task<bool> StoreVillagerApplicationAsync(ProfileModel profile)
 		{
 
 			try
 			{
-				string queryableAlts = QueryableConversion(profile.Alts);
-				string queryableMasteries = QueryableConversion(profile.Masteries);
-
 				string sql = "INSERT INTO konohagakure.profiledata (memberid, username, serverid, servername, avatarurl, profileimage, ingamename, level, clan, organization, organizationrank, raids, fame, proctoredmissions, masteries, alts) " +
-						$"VALUES ('{profile.MemberId}', '{profile.Username}', '{profile.ServerId}', '{profile.ServerName}', '{profile.AvatarURL}', '{profile.ProfileImage}', '{profile.InGameName}', " +
-						$"'{profile.Level}', '{profile.Clan}', '{profile.Organization}', '{profile.OrganizationRank}', '{profile.Raids}', '{profile.Fame}', '{profile.ProctoredMissions}', ARRAY[{queryableMasteries}], ARRAY[{queryableAlts}]);";
-
-				await _db.SaveData(sql, profile, connectionStringName);
+						$"VALUES (@memberid, @username, @serverid, @servername, @avatarurl, @profileimage, @ingamename, @level, @clan, @organization, @organizationrank, @raids, @fame, @proctoredmissions, @masteries, @alts);";
+				await _db.SaveData(sql,
+								   new 
+								   { 
+									   memberid = (long)profile.MemberId, 
+									   username = profile.Username, 
+									   serverid = (long)profile.ServerId,
+									   servername = profile.ServerName,
+									   avatarurl = profile.AvatarURL,
+									   profileimage = profile.ProfileImage,
+									   ingamename = profile.InGameName,
+									   level = profile.Level,
+									   clan = profile.Clan,
+									   organization = profile.Organization,
+									   organizationrank = profile.OrganizationRank,
+									   raids = profile.Raids,
+									   fame = profile.Fame,
+									   proctoredmissions = profile.ProctoredMissions,
+									   masteries = profile.Masteries,
+									   alts = profile.Alts
+								   },
+								   connectionStringName);
 
 				return true;
 			}
@@ -97,14 +109,117 @@ namespace KonohagakureLibrary.Data
 			}
 		}
 
-
-		public string QueryableConversion(string profileData)
+		public async Task<(bool, List<ProfileModel>)> RetrieveProfileAsync(ulong MemberId)
 		{
-			string[] array = profileData.Split(",").Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-			string value = string.Join(",", array);
-			string queryable = string.Join(",", value.Split(",").Select(x => string.Format("'{0}'", x)));
+			try
+			{
+				string sql = "SELECT p.ingamename, p.level, p.masteries, p.clan, p.organization, p.organizationrank, p.raids, p.fame, p.avatarurl, p.profileimage, p.proctoredmissions " +
+							 "FROM konohagakure.profiledata p " +
+							$"WHERE memberid = @memberId;";
 
-			return queryable;
+				var profile = await _db.LoadData<ProfileModel, dynamic>(sql, new { memberId = (long)MemberId }, connectionStringName);
+
+				return (true, profile);
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return (false, null);
+			}
+		}
+
+		public async Task<bool> UpdateProfileImageAsync(ulong MemberId, string ImageURL)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+								  $"SET profileimage = @ImageURL " +
+								  $"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberId, ImageURL }, connectionStringName);
+
+				return true;
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<(bool, List<string>)> GetProfileImageAsync(ulong MemberID)
+		{
+			try
+			{
+				string sql = "SELECT p.profileimage " +
+							 "FROM konohagakure.profiledata p " +
+							$"WHERE memberid = @memberId;";
+
+				var result = await _db.LoadData<string, dynamic>(sql, new { memberId = (long)MemberID }, connectionStringName);
+
+				return (true, result);
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return (false, null);
+			}
+		}
+
+		public async Task<bool> UpdateFameAsync(ulong MemberID)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+								"SET fame = fame + 1 " +
+								$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID }, connectionStringName);	
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateClanAsync(ulong MemberID, string Clan)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+								  $"SET  clan = @Clan " +
+								  $"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, Clan }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateMasteriesAsync(ulong MemberID, string[] Masteries)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET  masteries = @Masteries " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, Masteries }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
 		}
 	}
 }
