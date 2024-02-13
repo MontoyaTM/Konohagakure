@@ -1,9 +1,10 @@
 ﻿using DSharpPlus;
 using DSharpPlus.ButtonCommands;
-
+using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.ModalCommands;
+using KonohagakureLibrary.Data;
 using KonohagakureLibrary.ImageURLs;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,11 @@ using System.Threading.Tasks;
 
 namespace Konohagakure.VillagerApplication
 {
+	[ModuleLifespan(ModuleLifespan.Transient)]
 	public class ButtonCommandVillagerApplication : ButtonCommandModule
 	{
+		public IDatabaseProfileData _db { get; set; }
+
 		[ButtonCommand("btn_CreateApplication")]
 		public async Task CreateVillagerApplication(ButtonContext ctx)
 		{
@@ -147,3 +151,4 @@ namespace Konohagakure.VillagerApplication
 		}
 	}
 }
+
