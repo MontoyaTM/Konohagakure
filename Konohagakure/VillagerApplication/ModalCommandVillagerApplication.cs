@@ -28,7 +28,8 @@ namespace Konohagakure.VillagerApplication
 
 			var modalValues = ctx.Values;
 
-			ButtonCommandsExtension buttonCommand = ctx.Client.GetButtonCommands();
+			var data = ctx.Values[2];
+			string[] alts = data.Split(",").Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
 			var profileModel = new ProfileModel
 			{
@@ -39,7 +40,8 @@ namespace Konohagakure.VillagerApplication
 				AvatarURL = ctx.Interaction.User.AvatarUrl,
 				ProfileImage = ctx.Interaction.User.AvatarUrl,
 				InGameName = modalValues.ElementAt(0),
-				Alts = modalValues.ElementAt(2),
+				Alts = alts,
+				
 			};
 
 			var applicantExists = await _db.UserExistsAsync(profileModel.MemberId);
@@ -74,6 +76,8 @@ namespace Konohagakure.VillagerApplication
 				await ctx.Interaction.CreateFollowupMessageAsync(new DiscordFollowupMessageBuilder()
 																	.WithContent($"Succesfully created a villager application for {ctx.Interaction.User.Username}"));
 
+				ButtonCommandsExtension buttonCommand = ctx.Client.GetButtonCommands();
+
 				var embedApplication = new DiscordMessageBuilder()
 					.AddEmbed(new DiscordEmbedBuilder()
 						.WithColor(DiscordColor.SpringGreen)
@@ -83,7 +87,8 @@ namespace Konohagakure.VillagerApplication
 						.WithFooter(ctx.Interaction.User.Id.ToString())
 						.AddField("IGN:", profileModel.InGameName)
 						.AddField("Introduction:", modalValues.ElementAt(1))
-						.AddField("Alt(s):", profileModel.Alts))
+						.AddField("Alt(s):", modalValues.ElementAt(2))
+						)
 					.AddComponents(
 					new DiscordButtonComponent(ButtonStyle.Primary, buttonCommand.BuildButtonId("btn_AcceptApplicant"), "Accept Applicant"),
 					new DiscordButtonComponent(ButtonStyle.Secondary, buttonCommand.BuildButtonId("btn_DeclineApplicant"), "Deny Applicant")
