@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.ButtonCommands;
+using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Konohagakure.Dashboards.Hokage
 {
+	[ModuleLifespan(ModuleLifespan.Transient)]
 	public class ButtonCommandHokageDashboard : ButtonCommandModule
 	{
 		public IDatabaseHokageData _db { get; set; }
