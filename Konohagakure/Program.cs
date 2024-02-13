@@ -1,3 +1,6 @@
+using KonohagakureLibrary.Data;
+using KonohagakureLibrary.DBUtil;
+
 namespace Konohagakure
 {
 	public class Program
@@ -11,7 +14,10 @@ namespace Konohagakure
 				})
 				.ConfigureServices(services =>
 				{
-					services.AddHostedService<DiscordBot>();
+					services.AddHostedService<DiscordBot>()
+					.AddTransient<IDatabaseHokageData, PostgreSQLHokageData>()
+					.AddTransient<IDatabaseProfileData, PostgreSQLProfileData>()
+					.AddTransient<IPostgreSQLDataAccess, PostgreSQLDataAccess>();
 				})
 				.Build();
 
