@@ -144,6 +144,8 @@ namespace Konohagakure
 
 			slashCommands.RegisterCommands<SlashCommandProfile>();
 			Commands.RegisterCommands<PrefixCommandProfile>();
+			ButtonCommands.RegisterButtons<ButtonCommandProfile>();
+			ModalCommands.RegisterModals<ModalCommandProfile>();
 
 			#endregion
 
@@ -174,8 +176,6 @@ namespace Konohagakure
 
 				await args.Context.CreateResponseAsync(coolDownMessage);
 			}
-
-			
 		}
 
 		private Task OnModalCommands_ModalCommandErrored(ModalCommandsExtension sender, ModalCommandErrorEventArgs args)
