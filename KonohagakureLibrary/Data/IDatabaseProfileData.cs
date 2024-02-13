@@ -13,5 +13,9 @@ namespace KonohagakureLibrary.Data
 		Task<bool> UpdateFameAsync(ulong MemberID);
 		Task<bool> UpdateClanAsync(ulong MemberID, string Clan);
 		Task<bool> UpdateMasteriesAsync(ulong MemberID, string[] Masteries);
+		Task<bool> UpdateOrganizationAsync(ulong MemberID, string Organization, string Rank);
+		Task<bool> UpdateLevelAsync(ulong MemberID, int Level);
+		Task<bool> UpdateIngameName(ulong MemberID, string IngameName);
+		Task<bool> AddAltAsync(ulong MemberID, string Alt);
 	}
 }

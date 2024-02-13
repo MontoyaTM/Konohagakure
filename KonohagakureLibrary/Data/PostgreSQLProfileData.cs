@@ -29,7 +29,7 @@ namespace KonohagakureLibrary.Data
 							 "FROM konohagakure.profiledata " +
 							$"WHERE memberid = @memberId;";
 
-				var count = await _db.GetCount(sql, new { memberId = (long) MemberId}, connectionStringName);
+				var count = await _db.GetCount(sql, new { memberId = (long)MemberId }, connectionStringName);
 
 				if (count == 0)
 				{
@@ -52,7 +52,7 @@ namespace KonohagakureLibrary.Data
 							 "FROM konohagakure.profiledata " +
 							$"WHERE serverid = @serverId;";
 
-				var count = await _db.GetCount(sql, new { serverId = (long) ServerId}, connectionStringName);
+				var count = await _db.GetCount(sql, new { serverId = (long)ServerId }, connectionStringName);
 
 				if (count == 0)
 				{
@@ -79,10 +79,10 @@ namespace KonohagakureLibrary.Data
 				string sql = "INSERT INTO konohagakure.profiledata (memberid, username, serverid, servername, avatarurl, profileimage, ingamename, level, clan, organization, organizationrank, raids, fame, proctoredmissions, masteries, alts) " +
 						$"VALUES (@memberid, @username, @serverid, @servername, @avatarurl, @profileimage, @ingamename, @level, @clan, @organization, @organizationrank, @raids, @fame, @proctoredmissions, @masteries, @alts);";
 				await _db.SaveData(sql,
-								   new 
-								   { 
-									   memberid = (long)profile.MemberId, 
-									   username = profile.Username, 
+								   new
+								   {
+									   memberid = (long)profile.MemberId,
+									   username = profile.Username,
 									   serverid = (long)profile.ServerId,
 									   servername = profile.ServerName,
 									   avatarurl = profile.AvatarURL,
@@ -173,7 +173,7 @@ namespace KonohagakureLibrary.Data
 								"SET fame = fame + 1 " +
 								$"WHERE memberid = @memberId;";
 
-				await _db.SaveData(sql, new { memberId = (long)MemberID }, connectionStringName);	
+				await _db.SaveData(sql, new { memberId = (long)MemberID }, connectionStringName);
 
 				return true;
 			}
@@ -221,5 +221,82 @@ namespace KonohagakureLibrary.Data
 				return false;
 			}
 		}
+
+		public async Task<bool> UpdateOrganizationAsync(ulong MemberID, string Organization, string Rank)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET  organization = @Organization , organizationrank = @Rank " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, Organization, Rank }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateLevelAsync(ulong MemberID, int Level)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET  level = @Level " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, Level }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<bool> UpdateIngameName(ulong MemberID, string IngameName)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET ingamename = @IngameName " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, IngameName }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<bool> AddAltAsync(ulong MemberID, string Alt)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET alts = ARRAY_APPEND(alts, @Alt) " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID, Alt }, connectionStringName);
+
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
 	}
 }
