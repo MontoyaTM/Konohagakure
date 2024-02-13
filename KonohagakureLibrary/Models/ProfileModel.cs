@@ -22,7 +22,7 @@ namespace KonohagakureLibrary.Models
 		public int Raids { get; set; } = 0;
 		public int Fame { get; set; } = 0;
 		public int ProctoredMissions { get; set; } = 0;
-		public string Masteries { get; set; } = "—";
-		public string Alts { get; set; } = "—";
+		public string[] Masteries { get; set; } = new string[] { "—" };
+		public string[] Alts { get; set; } = new string[] { "—" };
 	}
 }
