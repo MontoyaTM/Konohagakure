@@ -38,7 +38,18 @@ namespace KonohagakureLibrary.DBUtil
 			{
 				await connection.ExecuteAsync(sqlStatement, parameters);
 			};
-
 		}
+
+		public async Task<long> GetCount<T>(string sqlStatement,T parameters, string connectionStringName)
+		{
+			string connectionString = _config.GetConnectionString(connectionStringName);
+
+			using (IDbConnection connection = new NpgsqlConnection(connectionString))
+			{
+				long count = (long) await connection.ExecuteScalarAsync(sqlStatement, parameters);
+				return count;
+			};
+		}
+
 	}
 }
