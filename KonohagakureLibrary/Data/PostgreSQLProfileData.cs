@@ -298,5 +298,56 @@ namespace KonohagakureLibrary.Data
 			}
 		}
 
+		public async Task<bool> UpdateRaidAsync(ulong MemberID)
+		{
+			try
+			{
+				string sql = "UPDATE konohagakure.profiledata " +
+							$"SET raids = raids + 1 " +
+							$"WHERE memberid = @memberId;";
+
+				await _db.SaveData(sql, new { memberId = (long)MemberID }, connectionStringName);
+				
+				return true;
+
+			} catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return false;
+			}
+		}
+
+		public async Task<(bool, List<string>)> GetRaidMasteries(List<ulong> MemberIDs)
+		{
+			try
+			{
+				List<string> output = new List<string>(MemberIDs.Count);
+				List<ProfileModel> models = new List<ProfileModel>();
+
+				var count = 0;
+                foreach (var id in MemberIDs)
+                {
+                    string sql = "SELECT p.ingamename, p.masteries " +
+								   "FROM konohagakure.profiledata p " +
+								  $"WHERE p.memberid = @memberId;";
+
+					models = await _db.LoadData<ProfileModel, dynamic>(sql, new { memberId = (long)MemberIDs[count] }, connectionStringName);
+				};
+
+				foreach (var model in models)
+				{
+					output.Add($"{model.InGameName} — **{string.Join("/", model.Masteries)}**");
+				}
+
+				return (true, output);
+
+            } catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				return (false, null);
+			}
+
+		}
+
 	}
 }
