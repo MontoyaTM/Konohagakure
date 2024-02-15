@@ -14,6 +14,7 @@ using DSharpPlus.SlashCommands;
 using DSharpPlus.SlashCommands.Attributes;
 using DSharpPlus.SlashCommands.EventArgs;
 using Konohagakure.Dashboards.Hokage;
+using Konohagakure.Dashboards.Raid;
 using Konohagakure.Profile;
 using Konohagakure.VillagerApplication;
 using KonohagakureLibrary.Data;
@@ -137,6 +138,14 @@ namespace Konohagakure
 
 			Commands.RegisterCommands<PrefixCommandHokageDashboard>();
 			ButtonCommands.RegisterButtons<ButtonCommandHokageDashboard>();
+
+			#endregion
+
+
+			#region Raid Dashboard
+
+			Commands.RegisterCommands<PrefixCommandRaidDashboard>();
+			ButtonCommands.RegisterButtons<ButtonCommandRaidDashboard>();
 
 			#endregion
 
