@@ -15,7 +15,7 @@ namespace Konohagakure
 				.ConfigureServices(services =>
 				{
 					services.AddHostedService<DiscordBot>()
-					.AddTransient<IDatabaseHokageData, PostgreSQLHokageData>()
+					.AddTransient<IDatabaseRequestData, PostgreSQLRequestData>()
 					.AddTransient<IDatabaseProfileData, PostgreSQLProfileData>()
 					.AddTransient<IPostgreSQLDataAccess, PostgreSQLDataAccess>();
 				})

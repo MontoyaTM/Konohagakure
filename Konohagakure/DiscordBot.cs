@@ -14,6 +14,7 @@ using DSharpPlus.SlashCommands;
 using DSharpPlus.SlashCommands.Attributes;
 using DSharpPlus.SlashCommands.EventArgs;
 using Konohagakure.Dashboards.Hokage;
+using Konohagakure.Dashboards.Proctor;
 using Konohagakure.Dashboards.Raid;
 using Konohagakure.Profile;
 using Konohagakure.VillagerApplication;
@@ -62,7 +63,7 @@ namespace Konohagakure
 			// 3. Register Services for DSharpPlus's DependencyInjection
 			var botServices = new ServiceCollection()
 				.AddSingleton<IConfiguration>(_config)
-				.AddTransient<IDatabaseHokageData,  PostgreSQLHokageData>()
+				.AddTransient<IDatabaseRequestData, PostgreSQLRequestData>()
 				.AddTransient<IDatabaseProfileData, PostgreSQLProfileData>()
 				.AddTransient<IPostgreSQLDataAccess, PostgreSQLDataAccess>()
 					.BuildServiceProvider();
@@ -155,6 +156,14 @@ namespace Konohagakure
 			Commands.RegisterCommands<PrefixCommandProfile>();
 			ButtonCommands.RegisterButtons<ButtonCommandProfile>();
 			ModalCommands.RegisterModals<ModalCommandProfile>();
+
+			#endregion
+
+			#region Ranked Dashboard
+
+			Commands.RegisterCommands<PrefixCommandProctor>();
+			ButtonCommands.RegisterButtons<ButtonCommandProctor>();
+			ModalCommands.RegisterModals<ModalCommandProctor>();
 
 			#endregion
 
