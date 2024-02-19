@@ -19,5 +19,8 @@ namespace KonohagakureLibrary.Data
 		Task<bool> AddAltAsync(ulong MemberID, string Alt);
 		Task<bool> UpdateRaidAsync(ulong MemberID);
 		Task<(bool, List<string>)> GetRaidMasteries(List<ulong> MemberIDs);
+		Task<bool> DeleteApplication(ulong MemberId);
+		Task<(bool, string[])> RetrieveAlts(ulong MemberId);
+		Task<bool> UpdateProctoredMissionsAsync(ulong MemberId);
 	}
 }
