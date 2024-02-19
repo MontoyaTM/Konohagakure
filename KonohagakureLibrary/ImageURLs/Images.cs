@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KonohagakureLibrary.ImageURLs
 {
-	public class Images
+	public static class Images
 	{
 		public static string LeafSymbol_URL = "https://i.imgur.com/spjhOGb.png";
 		public static string CharacterProfile_URL = "https://i.imgur.com/bBsKHPn.png";
