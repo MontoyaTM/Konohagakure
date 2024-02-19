@@ -16,7 +16,7 @@ namespace Konohagakure.Dashboards.Hokage
 	[ModuleLifespan(ModuleLifespan.Transient)]
 	public class ButtonCommandHokageDashboard : ButtonCommandModule
 	{
-		public IDatabaseHokageData _db { get; set; }
+		public IDatabaseProfileData _db { get; set; }
 
 		[ButtonCommand("btn_DeleteApplication")]
 		public async Task DeleteApplication(ButtonContext ctx)
