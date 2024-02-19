@@ -51,11 +51,11 @@ namespace Konohagakure.VillagerApplication
 				}
 
 				var userApplication = ctx.Message.Embeds.First();
-				var geninRole = ctx.Guild.Roles.FirstOrDefault(x => x.Value.Name == "Genin");
+				var villagerRole = ctx.Guild.Roles.FirstOrDefault(x => x.Value.Name == "Villager");
 
 				var memberID = ulong.Parse(userApplication.Footer.Text);
 				DiscordMember member = await ctx.Guild.GetMemberAsync(memberID);
-				await member.GrantRoleAsync(geninRole.Value);
+				await member.GrantRoleAsync(villagerRole.Value);
 
 				await ctx.Client.SendMessageAsync(await ctx.Client.GetChannelAsync(acceptedChannel.Id), userApplication);
 
