@@ -17,7 +17,6 @@ namespace Konohagakure.Profile
 	public class SlashCommandProfile : ApplicationCommandModule
 	{
 		public IDatabaseProfileData _db { get; set; }
-		public IDatabaseHokageData _db2 { get; set; }
 
 		[SlashCommand("profile", "Displays the user's profile as an embed.")]
 		[SlashCooldown(2, 30, SlashCooldownBucketType.User)]
@@ -161,7 +160,7 @@ namespace Konohagakure.Profile
 			{
 				await ctx.EditResponseAsync(new DiscordWebhookBuilder().WithContent($"Successfully added {Alt} to your alt(s) list!"));
 
-				var isRetrieved = await _db2.RetrieveAlts(MemberID);
+				var isRetrieved = await _db.RetrieveAlts(MemberID);
 
 				DiscordMember member = await ctx.Guild.GetMemberAsync(MemberID);
 
