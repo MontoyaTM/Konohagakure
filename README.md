@@ -29,11 +29,14 @@ The project incorporates software programming concepts and problem solving using
 
 - [x] Villager Application
   
-The Villager Application
+This feature requires players to complete a Villager Application to gain access to the Discord server. Players will fill out their response to the questions in a Discord Modal component. The data submitted will be saved in a database to create unique user profiles. 
 
 <div align="center">
   <img src="KonohagakureLibrary/Images/Villager Application.png" alt="Logo" width="750" height="500">
 </div>
+
+The application will then be sent to a private discord channel within the server, only accessible by the village Hokage and Council members. Within the channel, the Hokage or Councils will determine whether an individual will gain access. If the applicant is granted access, the roles (Villager) will be automatically given.
+
 
 - [x] Character Profile Editor
 
