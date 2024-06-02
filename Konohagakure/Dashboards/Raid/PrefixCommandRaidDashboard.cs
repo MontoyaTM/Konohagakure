@@ -18,7 +18,7 @@ namespace Konohagakure.Dashboards.Raid
 		[Command("raid_dashboard")]
 		[RequireRoles(RoleCheckMode.Any, "Administrator")]
 		[Description("Leaf Raid Dashboard used to manage village raids.")]
-		public async Task HokageDashboard(CommandContext ctx)
+		public async Task RaidDashboard(CommandContext ctx)
 		{
 			ButtonCommandsExtension buttonCommand = ctx.Client.GetButtonCommands();
 

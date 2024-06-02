@@ -166,7 +166,7 @@ namespace Konohagakure.Profile
 
 				var embedAlts = new DiscordMessageBuilder()
 				.AddEmbed(new DiscordEmbedBuilder()
-					.WithColor(DiscordColor.Red)
+					.WithColor(DiscordColor.Green)
 					.WithTitle($"{ctx.Interaction.User.Username} Alt(s) List:")
 					.WithDescription(String.Join(",", isRetrieved.Item2))
 					.WithThumbnail(Images.LeafSymbol_URL)
