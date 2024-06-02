@@ -20,6 +20,7 @@ The project incorporates software programming concepts and problem solving using
 ### Built With
 
 * Visual Studio 2022
+* Npgsql
 * DBeaver
 * DSharpPlus
 * Kuylar.DsharpPlus.ButtonCommands
